@@ -105,7 +105,7 @@ Using **lazy.nvim**:
 - `:DevcontainerDown`
   - Stop and remove the container (see `remove_existing_container` if you want to always start clean).
 - `:DevcontainerSelectConfig`
-  - Pick which `devcontainer.json` to use when the project ships several of them.
+  - On the host, pick which `devcontainer.json` subsequent plugin commands should use. It does not switch the container of an existing Neovim process.
 - `:DevContainerToggle`
   - Toggle the last devcontainer terminal window.
 
@@ -121,7 +121,9 @@ A project may define more than one config, for example:
 .devcontainer/cpu/devcontainer.json
 ```
 
-The first command you run (`:DevcontainerUp`, `:DevcontainerExec`, …) asks you to pick one, listing each config's `name` alongside its path. That choice is reused for the rest of the session; use `:DevcontainerSelectConfig` to switch to a different one, or set `reuse_fixed_path = false` to be asked every time.
+The first command you run on the host (`:DevcontainerUp`, `:DevcontainerExec`, …) asks you to pick one, listing each config's `name` alongside its path. That choice is reused for the rest of that host Neovim session; use `:DevcontainerSelectConfig` to change the config used by subsequent commands, or set `reuse_fixed_path = false` to be asked every time.
+
+Selecting a config inside a devcontainer cannot move the current Neovim process to another container. To switch, return to the host Neovim, run `:DevcontainerSelectConfig`, then `:DevcontainerUp` and `:DevcontainerConnect`.
 
 To skip the prompt altogether, pin a config (path relative to the workspace folder, or absolute):
 
