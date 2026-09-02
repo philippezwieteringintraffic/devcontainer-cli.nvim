@@ -135,6 +135,21 @@ describe("folder_utils.get_config_name:", function()
   )
 
   it(
+    "preserves comma-bracket sequences inside name strings",
+    function()
+      local path = write_config({
+        "{",
+        "  \"name\": \"quoted \\\",} and ,]\",",
+        "}",
+      })
+
+      assert(folder_utils.get_config_name(path) == "quoted \",} and ,]")
+
+      vim.fn.delete(path)
+    end
+  )
+
+  it(
     "returns nil when the name is missing or the config is invalid",
     function()
       local without_name = write_config({ "{ \"image\": \"debian\" }" })

@@ -150,7 +150,45 @@ local function _strip_jsonc(text)
     end
   end
 
-  return (table.concat(out):gsub(',%s*([%]}])', '%1'))
+  text = table.concat(out)
+  out = {}
+  index = 1
+  length = #text
+  in_string = false
+
+  while index <= length do
+    local char = text:sub(index, index)
+
+    if in_string then
+      table.insert(out, char)
+      if char == '\\' then
+        index = index + 1
+        if index <= length then
+          table.insert(out, text:sub(index, index))
+        end
+      elseif char == '"' then
+        in_string = false
+      end
+    elseif char == '"' then
+      in_string = true
+      table.insert(out, char)
+    elseif char == ',' then
+      local next_index = index + 1
+      while next_index <= length and text:sub(next_index, next_index):match('%s') do
+        next_index = next_index + 1
+      end
+      local next_char = text:sub(next_index, next_index)
+      if next_char ~= '}' and next_char ~= ']' then
+        table.insert(out, char)
+      end
+    else
+      table.insert(out, char)
+    end
+
+    index = index + 1
+  end
+
+  return table.concat(out)
 end
 
 -- read the name declared by a devcontainer config
