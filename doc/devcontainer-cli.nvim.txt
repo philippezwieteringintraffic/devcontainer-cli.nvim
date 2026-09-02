@@ -29,4 +29,14 @@ DevcontainerConnect                                        *DevcontainerConnect*
 
 DevcontainerDown                                              *DevcontainerDown*
     Stops and removes the devcontainer associated with the current project.
+
+DevcontainerSelectConfig                              *DevcontainerSelectConfig*
+    Choose which devcontainer.json should be used for the current project. When
+    a project contains several configs (`.devcontainer/devcontainer.json`,
+    `.devcontainer.json` and/or `.devcontainer/<name>/devcontainer.json`) the
+    other commands already prompt for one the first time they are used and then
+    remember that choice; this command changes that choice.
+
+    Set `fixed_devcontainer_json_path` to pin a config and skip the prompt, or
+    `reuse_fixed_path = false` to be asked on every command.
 ================================================================================
