@@ -115,7 +115,7 @@ Using **lazy.nvim**:
 
 A project may define more than one config, for example:
 
-```
+```text
 .devcontainer/devcontainer.json
 .devcontainer/gpu/devcontainer.json
 .devcontainer/cpu/devcontainer.json
